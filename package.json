@@ -1,0 +1,20 @@
+{
+  "name": "thoughts",
+  "version": "1.0.0",
+  "description": "A bot for Thoughts of a cute weirdo",
+  "main": "bot.js",
+  "scripts": {
+    "start": "node bot.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "blog"
+  ],
+  "author": "Joshua Pregbaha",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "html-to-json": "^0.6.0",
+    "twit": "^2.2.11"
+  }
+}
