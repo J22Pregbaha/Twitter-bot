@@ -113,9 +113,9 @@ function tweetEvent(tweet) {
 
 
 //Tweet once everyday
-var htmlToJson = require('html-to-json');
-var posts = require('./posts.json');
-var url = process.env.blog_url;
+var htmlToJson = require('html-to-json'); // import module to convert the html home page of my blog to json
+var posts = require('./posts.json'); // get the json file created from the html home page of my blog
+var url = process.env.blog_url; // the url of my blog home page
 
 var linkParser = htmlToJson.createParser(['a[title]', {
 	'text': function ($a) {
@@ -124,7 +124,7 @@ var linkParser = htmlToJson.createParser(['a[title]', {
 	'href': function ($a) {
 		return $a.attr('href');
 	}
-}]);
+}]); // get the links with the titles of the posts and the links
 
 linkParser.request(url).done(function (links) {
 	//Do stuff with links
@@ -135,10 +135,10 @@ linkParser.request(url).done(function (links) {
 		if (err) throw err;
 	  	console.log('The file has been saved!');
 	});
-});
+}); // create a json file with the titles and links of the posts
 
 function random_from_array(posts){
-	return posts[Math.floor(Math.random() * posts.length)];
+	return posts[Math.floor(Math.random() * posts.length)]; // pick a random post
 }
 
 var post = random_from_array(posts);
@@ -156,5 +156,5 @@ if (post.text != 'To the top') {
 				console.log('It worked!');
 			}  
 		}
-	}, 1000*60*60*24);
+	}, 1000*60*60*24); // tweet a random post every 24 hours
 }
