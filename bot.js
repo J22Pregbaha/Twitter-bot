@@ -114,7 +114,7 @@ function tweetEvent(tweet) {
 
 //Tweet once everyday
 var htmlToJson = require('html-to-json'); // import module to convert the html home page of my blog to json
-var posts = require('./posts.json'); // get the json file created from the html home page of my blog
+
 var url = process.env.blog_url; // the url of my blog home page
 
 var linkParser = htmlToJson.createParser(['a[title]', {
@@ -136,6 +136,8 @@ linkParser.request(url).done(function (links) {
 	  	console.log('The file has been saved!');
 	});
 }); // create a json file with the titles and links of the posts
+
+var posts = require('./posts.json'); // get the json file created from the html home page of my blog
 
 function random_from_array(posts){
 	return posts[Math.floor(Math.random() * posts.length)]; // pick a random post
