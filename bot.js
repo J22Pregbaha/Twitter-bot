@@ -158,5 +158,5 @@ if (post.text != 'To the top') {
 				console.log('It worked!');
 			}  
 		}
-	}, 1000*60*60*24); // tweet a random post every 24 hours
+	}, 1000*60*60*12); // tweet a random post every 12 hours
 }
