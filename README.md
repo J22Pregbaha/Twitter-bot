@@ -12,6 +12,15 @@
 
 ## General info
 Here is the Twitter account for the bot [@botofaweirdo](https://twitter.com/botofaweirdo).
+To start development, clone the repository and install dependencies.
+
+```bash
+$ git clone https://github.com/J22Pregbaha/Twitter-bot.git
+$ cd Twitter-bot
+$ npm install
+```
+
+The secret keys are not included in the code for obvious reasons.
 
 ## Technologies
 * Twitter
