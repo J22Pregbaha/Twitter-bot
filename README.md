@@ -23,6 +23,8 @@ Here is the Twitter account for the bot [@botofaweirdo](https://twitter.com/boto
 List of features ready and TODOs for future development
 * Tweet a random blog post ever 12 hours
 * Reply anyone that mentions it
+* Tweet about ending SARS and police brutality in Nigeria
+* Spport others tweeting about ending SARS and police brutality in Nigeria
 
 To-do list:
 * Find a way to give it access to all the posts on the blog because it currently isn't picking a random post from all the posts
