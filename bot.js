@@ -172,10 +172,8 @@ const endSarsTweets = ['Educational and Economy reform', 'National constitution 
 
 const endSarsPost = random_from_array(endSarsTweets);
 
-setInterval(function tweetAboutSars() {
-	const tweet = {
-		status: endSarsPost + '#EndSARS #EndPoliceBrutality'
-	};
+setInterval(() => {
+	const tweet = { status: endSarsPost + ' #EndSARS #EndPoliceBrutality' };
 
 	T.post('statuses/update', tweet, tweeted);
 
@@ -184,13 +182,11 @@ setInterval(function tweetAboutSars() {
 			console.log(err);
 		} else {
 			console.log('It worked!');
-		}
+		}  
 	}
-}, 1000 * 60 * 60 * 2);
+}, 1000*60*60*6);
 
-const endSarsStream = T.stream('statuses/filter', {
-	track: ['#EndSARS', '#EndPoliceBrutality']
-});
+const endSarsStream = T.stream('statuses/filter', { track: ['#EndSARS', '#EndPoliceBrutality'] });
 
 function shouldInteract() {
 	const randomNumber = Math.floor(Math.random() * 10) + 1;
@@ -198,11 +194,11 @@ function shouldInteract() {
 	return false;
 }
 
-// Anytime someone tweets about my ending sars or ending police brutality
-endSarsStream.on("tweet", tweetSarsEvent);
+// Anytime someone tweets about ending sars or ending police brutality
+/*endSarsStream.on("tweet", tweetSarsEvent);
 
 function tweetSarsEvent(tweet) {
-	if (tweet.user.id === botofaweirdo.id) {
+	if ( tweet.user.id === botofaweirdo.id ) {
 		console.log("This is me");
 		return;
 		console.log("I'm talking to myself");
@@ -214,4 +210,41 @@ function tweetSarsEvent(tweet) {
 	}
 
 	if (tweet.retweeted_status) return;
-}
+}*/
+
+///////////////BOT HUMOUR///////////////
+
+/* All jokes are gotten from https://sv443.net/jokeapi/v2/ */
+
+setInterval(() => {
+	const jokeURL = "https://v2.jokeapi.dev/joke/Programming,Pun,Spooky";
+	let data;
+	let joke;
+
+	https.get(jokeURL, (resp) => {
+		resp.on('data', (chunk) => {
+			data = chunk;
+			data = JSON.parse(data);
+		});
+
+		resp.on('end', () => {
+			if (data.type === "single") {
+				joke = { status: data.joke + " #BotHumour" };
+			} else {
+				joke = { status: data.setup + "\n" + data.delivery + " #BotHumour" };
+			}
+
+			T.post('statuses/update', joke, tweeted);
+		});
+	}).on("error", (err) => {
+		console.log("Error: " + err.message);
+	});
+
+	function tweeted(err, data, response) {
+		if (err) {
+			console.log(err);
+		} else {
+			console.log('It worked!');
+		}
+	}
+}, 1000*60*60*14);
