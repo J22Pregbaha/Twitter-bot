@@ -36,7 +36,7 @@ List of features ready and TODOs for future development
 * Spport others tweeting about ending SARS and police brutality in Nigeria
 
 To-do list:
-* Find a way to give it access to all the posts on the blog because it currently isn't picking a random post from all the posts
+* [X] Find a way to give it access to all the posts on the blog because it currently isn't picking a random post from all the posts
 
 ## Status
 Project is always _in progress_ because it can always be improved
