@@ -37,6 +37,7 @@ List of features ready and TODOs for future development
 
 To-do list:
 * [X] Find a way to give it access to all the posts on the blog because it currently isn't picking a random post from all the posts
+* [X] Fix random tweeting to stop tweeting duplicates
 
 ## Status
 Project is always _in progress_ because it can always be improved

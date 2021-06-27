@@ -118,6 +118,7 @@ function tweetEvent(tweet) {
 const htmlToJson = require('html-to-json'); // import module to convert the html home page of my blog to json
 
 const url = process.env.blog_url; // the url of my blog home page
+const fs = require('fs');
 
 const linkParser = htmlToJson.createParser(['a[title]', {
 	'text': function ($a) {
@@ -128,24 +129,31 @@ const linkParser = htmlToJson.createParser(['a[title]', {
 	}
 }]); // get the links with the titles of the posts and the links
 
-linkParser.request(url).done(function (links) {
-	//Do stuff with links
-	console.log(links);
-	var fs = require('fs');
-	links = JSON.stringify(links);
-	fs.writeFile('posts.json', links, (err) => {
-		if (err) throw err;
-		console.log('The file has been saved!');
-	});
-}); // create a json file with the titles and links of the posts
-
 const posts = require('./posts.json'); // get the json file created from the html home page of my blog
 
-function random_from_array(posts) {
+if (posts.length === 0) {
+	linkParser.request(url).done(function (links) {
+		//Do stuff with links
+		links = JSON.stringify(links);
+		fs.writeFile('posts.json', links, (err) => {
+			if (err) throw err;
+			console.log('The file has been saved!');
+		});
+	}); // create a json file with the titles and links of the posts
+}
+
+function random_from_array(posts){
 	return posts[Math.floor(Math.random() * posts.length)]; // pick a random post
 }
 
 const post = random_from_array(posts);
+postIndex = posts.indexOf(post);
+posts.splice(postIndex, 1);
+
+fs.writeFile('posts.json', JSON.stringify(posts), (err) => {
+	if (err) throw err;
+	console.log('The file has been updated!');
+});
 
 if (post.text != 'To the top') {
 	setInterval(function tweetSomething() {
