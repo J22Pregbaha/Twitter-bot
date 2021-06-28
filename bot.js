@@ -118,7 +118,7 @@ function tweetEvent(tweet) {
 const htmlToJson = require('html-to-json'); // import module to convert the html home page of my blog to json
 
 const url = process.env.blog_url; // the url of my blog home page
-const fs = require('fs');
+let posts = [];
 
 const linkParser = htmlToJson.createParser(['a[title]', {
 	'text': function ($a) {
@@ -129,50 +129,52 @@ const linkParser = htmlToJson.createParser(['a[title]', {
 	}
 }]); // get the links with the titles of the posts and the links
 
-const posts = require('./posts.json'); // get the json file created from the html home page of my blog
-
-if (posts.length === 0) {
-	linkParser.request(url).done(function (links) {
-		//Do stuff with links
-		links = JSON.stringify(links);
-		fs.writeFile('posts.json', links, (err) => {
-			if (err) throw err;
-			console.log('The file has been saved!');
-		});
-	}); // create a json file with the titles and links of the posts
-}
-
 function random_from_array(posts){
 	return posts[Math.floor(Math.random() * posts.length)]; // pick a random post
 }
 
-const post = random_from_array(posts);
-postIndex = posts.indexOf(post);
-posts.splice(postIndex, 1);
+function checkPostNumber() {
+	return posts.length;
+}
 
-fs.writeFile('posts.json', JSON.stringify(posts), (err) => {
-	if (err) throw err;
-	console.log('The file has been updated!');
-});
+function restockPosts() {
+	linkParser.request(url).done(function (links) {
+		//Do stuff with links
+		posts = links;
+	});
+}
 
-if (post.text != 'To the top') {
-	setInterval(function tweetSomething() {
-		const tweet = {
-			status: post.text + ' ' + post.href
-		}
-
+function removePostAndTweet() {
+	const post = random_from_array(posts);
+	const postIndex = posts.indexOf(post);
+	posts.splice(postIndex, 1);
+	
+	if (post.text != 'To the top') {
+		const tweet = {status : post.text + ' ' + post.href}
 		T.post('statuses/update', tweet, tweeted);
-
 		function tweeted(err, data, response) {
 			if (err) {
 				console.log(err);
 			} else {
 				console.log('It worked!');
-			}
+			}  
 		}
-	}, 1000 * 60 * 60 * 12); // tweet a random post every 12 hours
+	}
 }
 
+function doTheDo() {
+	if (checkPostNumber() == 0) {
+		restockPosts();
+	}
+
+	setTimeout(() => {
+		if (checkPostNumber() != 0) {
+			removePostAndTweet();
+		}
+	}, 6000);
+}
+
+let tweetInterval = setInterval(doTheDo, 1000*60*60*12); // tweet a random post every 12 hours
 
 ///////////////END SARS///////////////
 
